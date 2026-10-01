@@ -1,0 +1,36 @@
+# Netlify serves the website from the project root. There is no build step.
+# The Flask backend in backend/ runs on Google Cloud Run, not on Netlify.
+
+[build]
+  publish = "."
+  command = ""
+
+# Keep backend source and project notes off the public site.
+[[redirects]]
+  from = "/backend/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/README.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404"
+  status = 404
+  force = true
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
